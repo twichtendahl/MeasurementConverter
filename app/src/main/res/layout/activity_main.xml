@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/inputQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -53,12 +53,12 @@
         app:layout_constraintStart_toStartOf="@+id/SourceUnitLabel"
         app:layout_constraintTop_toBottomOf="@+id/SourceUnitLabel" />
 
-    <EditText
-        android:id="@+id/editText2"
+    <TextView
+        android:id="@+id/displayConversion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
+        android:text="@string/emptyString"
         app:layout_constraintBaseline_toBaselineOf="@+id/TargetUnitLabel"
-        app:layout_constraintStart_toStartOf="@+id/editText" />
+        app:layout_constraintStart_toStartOf="@+id/inputQuantity" />
+
 </android.support.constraint.ConstraintLayout>

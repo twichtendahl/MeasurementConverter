@@ -2,9 +2,12 @@ package com.example.android.measurementconverter;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -16,8 +19,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     String sourceUnit;
     String targetUnit;
     Scanner scanner;
+
     TextView sourceUnitLabel;
     TextView targetUnitLabel;
+    EditText inputQuantity;
+    TextView displayConversion;
+
+    double toConvert;
+    double converted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +40,45 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         selectConversion.setAdapter(adapter);
         selectConversion.setOnItemSelectedListener(this);
+
+        //Set up TextWatcher on inputQuantity
+        inputQuantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                toConvert = Double.parseDouble(s.toString());
+                if(sourceUnit.length() != 0) { //User has made a selection of units to convert
+                    switch(sourceUnit) {
+                        case "Miles":
+                            converted = ConversionFunction.milesToKilometers(toConvert);
+                            break;
+                        case "Kilometers":
+                            converted = ConversionFunction.kilometersToMiles(toConvert);
+                            break;
+                        case "Inches":
+                            converted = ConversionFunction.inchesToCentimeters(toConvert);
+                            break;
+                        case "Centimeters":
+                            converted = ConversionFunction.centimetersToInches(toConvert);
+                            break;
+                        default:
+                            converted = ConversionFunction.milesToKilometers(toConvert);
+                    }
+
+                    // Display the conversion
+                    displayConversion.setText(Double.toString(converted));
+                }
+            }
+        });
 
     }
 
@@ -49,7 +97,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
-        sourceUnitLabel.setText(R.string.miles);
-        targetUnitLabel.setText(R.string.kilometers);
+        sourceUnitLabel.setText(R.string.emptyString);
+        targetUnitLabel.setText(R.string.emptyString);
     }
+
 }
