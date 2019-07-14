@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         selectConversion.setOnItemSelectedListener(this);
 
         //Set up TextWatcher on inputQuantity
+        displayConversion = findViewById(R.id.displayConversion);
+        inputQuantity = findViewById(R.id.inputQuantity);
         inputQuantity.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
