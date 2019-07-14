@@ -41,47 +41,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         selectConversion.setAdapter(adapter);
         selectConversion.setOnItemSelectedListener(this);
 
-        //Set up TextWatcher on inputQuantity
         displayConversion = findViewById(R.id.displayConversion);
         inputQuantity = findViewById(R.id.inputQuantity);
-        inputQuantity.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        sourceUnitLabel = findViewById(R.id.SourceUnitLabel);
+        targetUnitLabel = findViewById(R.id.TargetUnitLabel);
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                toConvert = Double.parseDouble(s.toString());
-                if(sourceUnit.length() != 0) { //User has made a selection of units to convert
-                    switch(sourceUnit) {
-                        case "Miles":
-                            converted = ConversionFunction.milesToKilometers(toConvert);
-                            break;
-                        case "Kilometers":
-                            converted = ConversionFunction.kilometersToMiles(toConvert);
-                            break;
-                        case "Inches":
-                            converted = ConversionFunction.inchesToCentimeters(toConvert);
-                            break;
-                        case "Centimeters":
-                            converted = ConversionFunction.centimetersToInches(toConvert);
-                            break;
-                        default:
-                            converted = ConversionFunction.milesToKilometers(toConvert);
-                    }
-
-                    // Display the conversion
-                    displayConversion.setText(Double.toString(converted));
-                }
-            }
-        });
-
+        inputQuantity.setText("0.0");
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -91,16 +56,32 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         sourceUnit = scanner.next();
         scanner.next();
         targetUnit = scanner.next();
-        
-        sourceUnitLabel = findViewById(R.id.SourceUnitLabel);
+
         sourceUnitLabel.setText(sourceUnit);
-        targetUnitLabel = findViewById(R.id.TargetUnitLabel);
         targetUnitLabel.setText(targetUnit);
+
+        toConvert = Double.parseDouble(inputQuantity.getText().toString());
+        switch(sourceUnit) {
+            case "Miles":
+                converted = ConversionFunction.milesToKilometers(toConvert);
+                break;
+            case "Kilometers":
+                converted = ConversionFunction.kilometersToMiles(toConvert);
+                break;
+            case "Inches":
+                converted = ConversionFunction.inchesToCentimeters(toConvert);
+                break;
+            case "Centimeters":
+                converted = ConversionFunction.centimetersToInches(toConvert);
+                break;
+            default:
+                converted = ConversionFunction.milesToKilometers(toConvert);
+        }
+        displayConversion.setText(Double.toString(converted));
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
-        sourceUnitLabel.setText(R.string.emptyString);
-        targetUnitLabel.setText(R.string.emptyString);
+
     }
 
 }
